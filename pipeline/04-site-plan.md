@@ -32,4 +32,4 @@ Implemented a dependency-free Python static generator, responsive emerald field-
 No in-game testing. Community attribution is part of the content contract, not a build blocker. Official image is labeled.
 
 ## Handoff
-Build and audit passed for 12 HTML files. Browser confirmed guide search, empty state, saved checklist/reload/reset and 100 rolls at 1% = 63.40%. Finish mobile QA before release.
+Build and audit passed for 12 HTML files. Browser confirmed guide search, empty state, saved checklist/reload/reset and 100 rolls at 1% = 63.40%. 390px homepage/menu/quest-filter checks passed without horizontal overflow.
