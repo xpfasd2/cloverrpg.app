@@ -1,5 +1,5 @@
 from pathlib import Path
-import json, shutil, html
+import json, shutil, html, hashlib
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'dist'
 if OUT.exists(): shutil.rmtree(OUT)
@@ -8,6 +8,10 @@ shutil.copytree(ROOT/'public',OUT,dirs_exist_ok=True)
 BASE='https://cloverrpg.app'
 DATE='2026-10-25'
 e=html.escape
+def asset_version(name): return hashlib.sha256((ROOT/'public'/name).read_bytes()).hexdigest()[:12]
+STYLE_VERSION=asset_version('style.css')
+SCRIPT_VERSION=asset_version('app.js')
+ICON_VERSION=asset_version('favicon.svg')
 sources={
  'game':('Roblox · official experience','https://www.roblox.com/games/8248164019/Clover-RPG','Official','Game identity, developer, PC and console. Live Roblox API inspected on October 25, 2026.'),
  'controls':('Roblox Developer Forum · controls','https://devforum.roblox.com/t/clover-rpg-controls/1665918','Developer','Developer-authored controls. Search-index text checked; live forum returned a browser verification screen. In-game bindings take precedence.'),
@@ -104,7 +108,7 @@ for slug,p in PAGES.items():
  breadcrumbs={'@context':'https://schema.org','@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':BASE+'/'},{'@type':'ListItem','position':2,'name':p['title'],'item':canonical}]}
  head=f'''<!doctype html><html lang="en"><head>
 {GA}
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(p['title'])}</title><meta name="description" content="{e(p['desc'])}"><link rel="canonical" href="{canonical}"><meta name="theme-color" content="#fdfcf6"><meta property="og:type" content="website"><meta property="og:title" content="{e(p['title'])}"><meta property="og:description" content="{e(p['desc'])}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE}/assets/clover-official.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/libre-caslon-display.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script><script type="application/ld+json">{json.dumps(schema)}</script>'''
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(p['title'])}</title><meta name="description" content="{e(p['desc'])}"><link rel="canonical" href="{canonical}"><meta name="theme-color" content="#fdfcf6"><meta property="og:type" content="website"><meta property="og:title" content="{e(p['title'])}"><meta property="og:description" content="{e(p['desc'])}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE}/assets/clover-official.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg?v={ICON_VERSION}" type="image/svg+xml"><link rel="preload" href="/assets/fonts/libre-caslon-display.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/style.css?v={STYLE_VERSION}"><script src="/app.js?v={SCRIPT_VERSION}" defer></script><script type="application/ld+json">{json.dumps(schema)}</script>'''
  if slug: head+=f'<script type="application/ld+json">{json.dumps(breadcrumbs)}</script>'
  if slug=='404':head+='<meta name="robots" content="noindex">'
  header=f'''</head><body class="{'home' if not slug else 'interior'}"><a class="skip" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="/" aria-label="Clover RPG Field Guide home">{icon('clover','brand-symbol')}<span>CLOVER RPG<span class="brand-sub">FIELD GUIDE</span></span></a><nav aria-label="Main navigation"><a href="/#guides">Guides</a><a href="/magic/">Magic</a><a href="/quests/">Quests</a></nav><a class="play-link" href="https://www.roblox.com/games/8248164019/Clover-RPG" target="_blank" rel="noopener noreferrer">Play on Roblox {icon('arrow-up-right')}</a><button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav" type="button">{icon('list')}</button></header><nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="/#guides">All guides</a><a href="/magic/">Magic &amp; grimoires</a><a href="/quests/">Quests</a><a href="/codes/">Codes</a><a href="/links/">Play &amp; community</a></nav><main id="main">'''

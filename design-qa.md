@@ -50,3 +50,7 @@ Selected reference: option 2, Elysium Adventure Atlas, explicitly selected by th
 5. P3 — Chrome's existing translation extension contributes a small floating badge at the right edge of captures. It is not shipped in site source.
 
 No open P0/P1/P2 findings. Browser emulation does not establish physical-device testing, game mechanics validation or Analytics report receipt.
+
+## Release cache regression
+
+The first production-browser check exposed a P1 deployment issue: previously cached unversioned CSS/JavaScript remained fresh for four hours, so an existing visitor could receive new HTML with old styling and search behavior. The build now includes content hashes in CSS, script and favicon URLs. This preserves normal caching while binding each HTML revision to its matching resources. Build/audit and hash assertions pass; the next production capture and interaction proof are recorded in `outputs/redesign/atlas-release.json` and `atlas-live-desktop.png`.
