@@ -29,3 +29,7 @@ Search indexing, Google Analytics report receipt, real mobile device and in-game
 
 ## Handoff
 User explicitly authorized upload to GitHub and Cloudflare Pages publication of cloverrpg.app. Payload contains only this project and attributed site assets. Initial deployment 26dedc55-c825-4351-94d7-6d54778eea20 succeeded. Curl checks on all 11 content routes returned 200; missing route returned 404. Python urllib received edge 403 responses, so live checks used curl and Chrome.
+
+## Atlas redesign verification
+
+User-selected option 2 implemented with all content routes retained. Build/audit passed for all 12 pages after redesign. Search, filter, local checklist reload/reset, FAQ, probability inputs and quest filter tested in Chrome. Desktop, tablet and mobile layouts visually checked; source and rendered screenshot compared on matching 1487 × 1058 canvases. See design-qa.md.

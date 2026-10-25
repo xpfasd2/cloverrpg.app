@@ -1,17 +1,17 @@
 ---
 artifact: 06-deployment-report
-status: partial
+status: complete
 game: "Clover RPG"
 scope: "English guide; GitHub and Cloudflare Pages release requested by user"
 generated_at: "2026-10-25T15:20:22.080963+00:00"
 observed_through: "2026-10-25T15:20:22.080963+00:00"
 upstream: ["05-seo-audit"]
 sources: ["game", "controls", "beginner", "magic", "unlock", "races", "quests", "codes", "links"]
-gaps: ["Release pending"]
+gaps: ["Google Analytics report receipt, indexing and physical-device testing are unverified"]
 ---
 
 ## Decision or outcome
-Deployed to Cloudflare Pages from GitHub. Custom-domain HTTPS returned 200 with the correct page and single GA4 configuration; provider activation is still propagating at this report checkpoint.
+Deployed to Cloudflare Pages from GitHub. Custom-domain HTTPS returned 200 with the correct page and single GA4 configuration. Cloudflare now reports domain status, ownership verification and certificate validation all active.
 
 ## Evidence and analysis
 | Field | Observed result |
@@ -32,10 +32,12 @@ Deployed to Cloudflare Pages from GitHub. Custom-domain HTTPS returned 200 with 
 The root domain previously had two A records. Their values were recorded locally in outputs/dns-before.json before authorized cutover. The older A records were replaced by one CNAME through Cloudflare's DNS dashboard because Wrangler OAuth lacks DNS permissions.
 
 ## Unknowns and conflicts
-Google Analytics report receipt, global DNS propagation, search indexing and physical mobile devices have not been verified. A Python urllib probe received 403 at the edge; curl fetched correct pages successfully. Browser initially saw an old-origin 522 during cutover; final browser/domain verification is still required.
+Google Analytics report receipt, search indexing and physical mobile devices have not been verified. A Python urllib probe received 403 at the edge; curl fetched correct pages successfully. Browser initially saw an old-origin 522 during cutover; subsequent browser loads and domain verification succeeded.
 
 ## Handoff
-This documentation commit is also the first real push-triggered synchronization check. Record its resulting deployment in local outputs after provider success.
+The first real GitHub push deployment, 70a30e7a-ebd4-4b14-a03e-f7c2936a28cb, succeeded for b13b28ea69664c23a18ba78ac29bf0b74b4421c8. This verifies Git push synchronization independently of the initial API-triggered deployment.
+
+The user-selected Atlas redesign passed local design QA and is released through the same main-branch pipeline. Its exact deployment revision and live evidence are recorded in local outputs after provider success; see design-qa.md for the implementation verification.
 
 | Volatile facts | Owner / source | Trigger | Gate | Failure behavior | Schedule |
 |---|---|---|---|---|---|
